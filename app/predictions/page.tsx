@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 const API = process.env.NEXT_PUBLIC_API_URL || '';
 
-export default function PredictionsPage() {
+function PredictionsContent() {
   const params = useSearchParams();
   const jobId = params.get('job') || '';
   const [data, setData] = useState<any>(null);
@@ -222,4 +222,11 @@ export default function PredictionsPage() {
       </div>
     </div>
   );
+  export default function PredictionsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin text-4xl">⏳</div></div>}>
+      <PredictionsContent />
+    </Suspense>
+  );
+}
 }
